@@ -1,0 +1,346 @@
+[
+  {
+    "title": "Import Configuration",
+    "properties": [
+      {
+        "name": "source",
+        "label": "Import Source",
+        "type": "selectbox",
+        "required": "true",
+        "value": "caret",
+        "options": [
+          {
+            "value": "caret",
+            "label": "Caret CRM"
+          }
+        ]
+      },
+      {
+        "name": "controlFormId",
+        "label": "Import Control Form ID",
+        "type": "textfield",
+        "required": "true",
+        "value": "client_import",
+        "description": "Joget Form Definition ID containing the uploaded import file and progress fields."
+      },
+      {
+        "name": "controlFormTable",
+        "label": "Import Control Table Name",
+        "type": "textfield",
+        "required": "true",
+        "value": "lms_client_import",
+        "description": "Form table name without the app_fd_ prefix."
+      },
+      {
+        "name": "controlRecordId",
+        "label": "Import Record ID",
+        "type": "textfield",
+        "required": "true",
+        "value": "#process.recordId#",
+        "description": "Record ID of the import control record."
+      },
+      {
+        "name": "inputFileField",
+        "label": "Excel File Field ID",
+        "type": "textfield",
+        "required": "true",
+        "value": "import_file",
+        "description": "File Upload field containing the Caret Excel file."
+      }
+    ]
+  },
+  {
+    "title": "Client Import Rules",
+    "properties": [
+      {
+        "name": "clientIdPrefix",
+        "label": "Client ID Prefix",
+        "type": "textfield",
+        "required": "true",
+        "value": "TEST"
+      },
+      {
+        "name": "clientIdPad",
+        "label": "Client ID Number Padding",
+        "type": "textfield",
+        "required": "true",
+        "value": "4",
+        "description": "Example: prefix TEST and padding 4 produces TEST0001."
+      },
+      {
+        "name": "defaultPhoneType",
+        "label": "Default Phone Type",
+        "type": "textfield",
+        "value": "Other"
+      },
+      {
+        "name": "defaultEmailType",
+        "label": "Default Email Type",
+        "type": "textfield",
+        "value": "Other"
+      },
+      {
+        "name": "enrichExistingClients",
+        "label": "Enrich Existing Clients",
+        "type": "checkbox",
+        "value": "true",
+        "options": [
+          {
+            "value": "true",
+            "label": "Add missing phone, email, address and relationship information to matched clients"
+          }
+        ]
+      },
+      {
+        "name": "createOrganizationFromPersonOnly",
+        "label": "Create Organization From Person-Only Row",
+        "type": "checkbox",
+        "value": "false",
+        "options": [
+          {
+            "value": "true",
+            "label": "Create an organization when a Person references a company that has no matching Company row"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Invalid Data Handling",
+    "properties": [
+      {
+        "name": "addInvalidClientNames",
+        "label": "Allow Invalid Client Names",
+        "type": "checkbox",
+        "value": "false",
+        "options": [
+          {
+            "value": "true",
+            "label": "Allow clients even when mandatory name values are missing"
+          }
+        ]
+      },
+      {
+        "name": "addInvalidPhoneNumbers",
+        "label": "Import Invalid Phone Numbers",
+        "type": "checkbox",
+        "value": "false",
+        "options": [
+          {
+            "value": "true",
+            "label": "Import phone values even when normal phone validation fails"
+          }
+        ]
+      },
+      {
+        "name": "addInvalidEmails",
+        "label": "Import Invalid Emails",
+        "type": "checkbox",
+        "value": "false",
+        "options": [
+          {
+            "value": "true",
+            "label": "Import email values even when email validation fails"
+          }
+        ]
+      },
+      {
+        "name": "addInvalidAddresses",
+        "label": "Import Addresses Requiring Review",
+        "type": "checkbox",
+        "value": "true",
+        "options": [
+          {
+            "value": "true",
+            "label": "Import addresses even when state or country cannot be fully resolved"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Progress Tracking",
+    "properties": [
+      {
+        "name": "statusField",
+        "label": "Status Field ID",
+        "type": "textfield",
+        "value": "status"
+      },
+      {
+        "name": "progressField",
+        "label": "Progress Percentage Field ID",
+        "type": "textfield",
+        "value": "progress"
+      },
+      {
+        "name": "totalRowsField",
+        "label": "Total Rows Field ID",
+        "type": "textfield",
+        "value": "total_rows"
+      },
+      {
+        "name": "processedRowsField",
+        "label": "Processed Rows Field ID",
+        "type": "textfield",
+        "value": "processed_rows"
+      },
+      {
+        "name": "successRowsField",
+        "label": "Successful Rows Field ID",
+        "type": "textfield",
+        "value": "success_rows"
+      },
+      {
+        "name": "failedRowsField",
+        "label": "Failed Rows Field ID",
+        "type": "textfield",
+        "value": "failed_rows"
+      },
+      {
+        "name": "duplicateRowsField",
+        "label": "Duplicate Rows Field ID",
+        "type": "textfield",
+        "value": "duplicate_rows"
+      },
+      {
+        "name": "messageField",
+        "label": "Current Message Field ID",
+        "type": "textfield",
+        "value": "current_message"
+      },
+      {
+        "name": "progressUpdateInterval",
+        "label": "Progress Update Interval",
+        "type": "textfield",
+        "value": "25",
+        "description": "Update the control form after this many processed source rows."
+      }
+    ]
+  },
+  {
+    "title": "Reports",
+    "properties": [
+      {
+        "name": "summaryField",
+        "label": "Summary Field ID",
+        "type": "textfield",
+        "value": "summary"
+      },
+      {
+        "name": "reportFileField",
+        "label": "Report File Field ID",
+        "type": "textfield",
+        "value": "report_file",
+        "description": "Configure this Joget File Upload field to allow multiple files."
+      },
+      {
+        "name": "reportUrlField",
+        "label": "Report URL Field ID",
+        "type": "textfield",
+        "value": "report_url"
+      },
+      {
+        "name": "generateSummaryReport",
+        "label": "Generate Summary Report",
+        "type": "checkbox",
+        "value": "true",
+        "options": [
+          {
+            "value": "true",
+            "label": "Generate import summary report"
+          }
+        ]
+      },
+      {
+        "name": "generateFailedReport",
+        "label": "Generate Failed Clients Report",
+        "type": "checkbox",
+        "value": "true",
+        "options": [
+          {
+            "value": "true",
+            "label": "Generate re-uploadable Excel report for failed clients"
+          }
+        ]
+      },
+      {
+        "name": "generateDuplicateReport",
+        "label": "Generate Duplicate Report",
+        "type": "checkbox",
+        "value": "true",
+        "options": [
+          {
+            "value": "true",
+            "label": "Generate duplicate and merge details report"
+          }
+        ]
+      },
+      {
+        "name": "generateUnresolvedReport",
+        "label": "Generate Unresolved Details Report",
+        "type": "checkbox",
+        "value": "true",
+        "options": [
+          {
+            "value": "true",
+            "label": "Generate report for values requiring manual review"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "External Integrations",
+    "properties": [
+      {
+        "name": "teamsSyncProcessDefId",
+        "label": "Teams Sync Process Definition ID",
+        "type": "textfield",
+        "value": "lms#latest#teamsIntegrationProcess"
+      },
+      {
+        "name": "qbSyncProcessDefId",
+        "label": "QuickBooks Sync Process Definition ID",
+        "type": "textfield",
+        "value": "lms#latest#customersync",
+        "description": "Process definition used when QuickBooks Sync Mode is Automatic."
+      },
+      {
+        "name": "qbCustomerIdField",
+        "label": "QuickBooks Customer ID Field",
+        "type": "textfield",
+        "value": "qb_customer_id"
+      },
+      {
+        "name": "sharePointMaxAttempts",
+        "label": "SharePoint Resolve Attempts",
+        "type": "textfield",
+        "value": "10"
+      },
+      {
+        "name": "sharePointRetryDelayMs",
+        "label": "SharePoint Retry Delay (ms)",
+        "type": "textfield",
+        "value": "15000"
+      }
+    ]
+  },
+  {
+    "title": "Logging",
+    "properties": [
+      {
+        "name": "debugMode",
+        "label": "Enable Debug Logging",
+        "type": "checkbox",
+        "value": "false",
+        "options": [
+          {
+            "value": "true",
+            "label": "Write detailed client import logs to joget.log"
+          }
+        ]
+      }
+    ]
+  }
+]
