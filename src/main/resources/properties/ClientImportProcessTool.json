@@ -53,19 +53,18 @@
     "title": "Client Import Rules",
     "properties": [
       {
-        "name": "clientIdPrefix",
-        "label": "Client ID Prefix",
+        "name": "clientIdGenerator",
+        "label": "Client ID Generator Env Variable",
         "type": "textfield",
         "required": "true",
-        "value": "TEST"
+        "value": "client"
       },
       {
-        "name": "clientIdPad",
-        "label": "Client ID Number Padding",
+        "name": "clientIdFormat",
+        "label": "Client ID Generator Format",
         "type": "textfield",
         "required": "true",
-        "value": "4",
-        "description": "Example: prefix TEST and padding 4 produces TEST0001."
+        "value": "CL?"
       },
       {
         "name": "defaultPhoneType",

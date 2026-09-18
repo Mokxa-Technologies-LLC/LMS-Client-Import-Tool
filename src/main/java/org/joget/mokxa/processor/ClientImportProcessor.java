@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.joget.apps.app.model.AppDefinition;
+import org.joget.apps.app.service.AppService;
 import org.joget.apps.app.service.AppUtil;
 import org.joget.apps.form.dao.FormDataDao;
 import org.joget.apps.form.model.FormRow;
@@ -78,10 +80,12 @@ public class ClientImportProcessor {
 
     private String clientIdPrefix;
     private int clientIdPad;
-    private int nextClientNumber;
 
     private String defaultPhoneType;
     private String defaultEmailType;
+
+    private String clientIdGenerator;
+    private String clientIdFormat;
 
     // =========================================================================
     // RUN RESULT
@@ -125,6 +129,8 @@ public class ClientImportProcessor {
 
         this.clientIdPrefix = JogetFormUtil.property(properties, "clientIdPrefix", "TEST");
         this.clientIdPad = intProperty(properties, "clientIdPad", 4);
+        this.clientIdGenerator = JogetFormUtil.property(properties, "clientIdGenerator", "client");
+        this.clientIdFormat = JogetFormUtil.property(properties, "clientIdFormat", "CL?");
 
         this.defaultPhoneType = JogetFormUtil.property(properties, "defaultPhoneType", "Other");
         this.defaultEmailType = JogetFormUtil.property(properties, "defaultEmailType", "Other");
@@ -151,8 +157,7 @@ public class ClientImportProcessor {
                 "Caches ready | countryCodes=" + countryCodes.size() +
                         " organizations=" + organizationCache.size() +
                         " companyIndex=" + companyIndex.size() +
-                        " individualNames=" + individualNameCache.size() +
-                        " nextClientNumber=" + nextClientNumber
+                        " individualNames=" + individualNameCache.size()
         );
 
         int totalRows = rows.size();
@@ -2146,7 +2151,6 @@ public class ClientImportProcessor {
         countryAliases = ImportUtil.buildCountryAliases();
         stateAliases = ImportUtil.buildStateAliases();
 
-        nextClientNumber = findNextClientNumber();
     }
 
     private List<String> loadCountryCodes() {
@@ -2443,57 +2447,38 @@ public class ClientImportProcessor {
     // CLIENT ID
     // =========================================================================
 
-    private int findNextClientNumber() {
 
-        int max = 0;
-
-        FormRowSet rows = findAll(
-                CLIENT_FORM,
-                CLIENT_TABLE
-        );
-
-        for (FormRow row : rows) {
-
-            String id = ImportUtil.value(
-                    row.getId()
-            );
-
-            if (!id.startsWith(clientIdPrefix)) {
-                continue;
-            }
-
-            String suffix = id.substring(
-                    clientIdPrefix.length()
-            );
-
-            if (!suffix.matches("^[0-9]+$")) {
-                continue;
-            }
-
-            try {
-
-                int value = Integer.parseInt(
-                        suffix
-                );
-
-                if (value > max) {
-                    max = value;
-                }
-
-            } catch (Exception ignore) {
-            }
-        }
-
-        return max + 1;
-    }
 
     private synchronized String nextClientId() {
 
-        return clientIdPrefix +
-                ImportUtil.leftPadNumber(
-                        nextClientNumber++,
-                        clientIdPad
-                );
+        AppDefinition originalAppDef = null;
+
+        try {
+            AppService appService = (AppService) AppUtil.getApplicationContext().getBean("appService");
+
+            originalAppDef = AppUtil.getCurrentAppDefinition();
+
+            AppDefinition lmsAppDef = appService.getAppDefinition(
+                    "lms",
+                    AppDefinition.VERSION_LATEST
+            );
+
+            if (lmsAppDef == null) {
+                throw new RuntimeException("LMS app definition not found");
+            }
+
+            AppUtil.setCurrentAppDefinition(lmsAppDef);
+
+            return AppUtil.idGenerator(
+                    clientIdGenerator,
+                    clientIdFormat,
+                    false,
+                    getClass().getName()
+            );
+
+        } finally {
+            AppUtil.setCurrentAppDefinition(originalAppDef);
+        }
     }
 
     // =========================================================================

@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1787659626012
+Bnd-LastModified: 1789720374954
 Build-Jdk-Spec: 17
 Bundle-Activator: org.joget.mokxa.Activator
 Bundle-ClassPath: .,dependency/commons-compress-1.26.0.jar,dependency/po
